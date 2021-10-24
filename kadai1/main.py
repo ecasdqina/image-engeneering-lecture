@@ -6,6 +6,7 @@ from itertools import product
 from math import log10
 
 app = Typer(add_completion=False)
+home = Path('.')
 
 
 @app.command("simple_read_bw")
@@ -99,17 +100,17 @@ def peak_to_peak_signal_to_noise_ratio(
     with Image.open(src_files[0]) as image1, \
             Image.open(src_files[1]) as image2:
         if image1.size != image2.size:
-            secho("! The source images are not same size", fg=color.RED)
+            secho("! The source images are not same size", fg=colors.RED)
             raise Exit()
         size = image1.size
 
         if image1.format != image2.format:
-            secho("! The source images are not same format", fg=color.RED)
+            secho("! The source images are not same format", fg=colors.RED)
             raise Exit()
 
         eps = 0
-        dimention = 1 if isinstance(image1.getpixel(
-            (0, 0)), int) else len(image1.getpixel((0, 0)))
+        dimention = 1 if isinstance(image1.getpixel((0, 0)), int) \
+            else len(image1.getpixel((0, 0)))
         for (x, y) in product(range(size[0]), range(size[1])):
             pixel1, pixel2 = [image1.getpixel((x, y))], [
                 image2.getpixel((x, y))]
