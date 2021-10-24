@@ -5,7 +5,7 @@ from pathlib import Path
 from itertools import product
 from math import log10
 
-app = Typer()
+app = Typer(add_completion=False)
 home = Path('.')
 
 
