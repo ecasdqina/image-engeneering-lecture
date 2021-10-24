@@ -112,8 +112,7 @@ def peak_to_peak_signal_to_noise_ratio(
         dimention = 1 if isinstance(image1.getpixel((0, 0)), int) \
             else len(image1.getpixel((0, 0)))
         for (x, y) in product(range(size[0]), range(size[1])):
-            pixel1, pixel2 = [image1.getpixel((x, y))], [
-                image2.getpixel((x, y))]
+            pixel1, pixel2 = image1.getpixel((x, y)), image2.getpixel((x, y))
             if isinstance(pixel1, int):
                 pixel1, pixel2 = [pixel1], [pixel2]
 
