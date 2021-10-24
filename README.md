@@ -1,4 +1,4 @@
-# 使い方
+# kadai1
 
 ## simple_read_bw
 

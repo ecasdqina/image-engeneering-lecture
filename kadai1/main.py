@@ -6,7 +6,6 @@ from itertools import product
 from math import log10
 
 app = Typer(add_completion=False)
-home = Path('.')
 
 
 @app.command("simple_read_bw")
