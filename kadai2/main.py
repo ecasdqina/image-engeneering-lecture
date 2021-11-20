@@ -12,9 +12,7 @@ def image_to_list(image: Image) -> List[int]:
     return data
 
 
-def calc_variance(image: Image) -> NoReturn:
-    data = image_to_list(image)
-
+def calc_variance(data: List[int]) -> NoReturn:
     mean = sum(data) / len(data)
 
     variance = 0
@@ -23,14 +21,12 @@ def calc_variance(image: Image) -> NoReturn:
     return variance / len(data)
 
 
-def make_histogram(image: Image, out: str) -> NoReturn:
-    data = image_to_list(image)
-
-    fig = sns.histplot(data).get_figure()
-    fig.savefig(out)
+def make_histogram(data: List[int], out: str) -> NoReturn:
+    plot = sns.histplot(data, discrete=True)
+    plot.get_figure().savefig(out)
 
 
-def make_diffimage(image: Image, predictor) -> Image:
+def make_diffimage(image: Image, predictor) -> List[int]:
     size, offset = None, None
     try:
         predictor(1, 0)
@@ -41,7 +37,7 @@ def make_diffimage(image: Image, predictor) -> Image:
         size = (image.size[0] - 1, image.size[1])
         offset = (0, 1)
 
-    diffimage = Image.new(size=size, mode='L')
+    diffimage = []
     for _x in range(size[0]):
         for _y in range(size[1]):
             x, y = _x + offset[0], _y + offset[1]
@@ -50,7 +46,7 @@ def make_diffimage(image: Image, predictor) -> Image:
             predict = predictor(x, y)
             diff = pixel - predict
 
-            diffimage.putpixel((_x, _y), diff)
+            diffimage.append(diff)
     return diffimage
 
 
@@ -62,8 +58,8 @@ if __name__ == '__main__':
 
     with Image.open(args.image) as image:
         # 原画像
-        print(f'variance_origin = {calc_variance(image)}')
-        make_histogram(image, 'histogram_origin.png')
+        print(f'variance_origin = {calc_variance(image_to_list(image))}')
+        make_histogram(image_to_list(image), 'histogram_origin.png')
 
         def predictor_equal(x: int, y: int) -> int:
             assert y > 0
